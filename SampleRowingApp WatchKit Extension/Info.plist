@@ -34,5 +34,9 @@
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<true/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Needs to use health data</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Needs to use health data</string>
 </dict>
 </plist>

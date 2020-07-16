@@ -7,8 +7,17 @@
 //
 
 import WatchKit
+import WatchConnectivity
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
+    
+    
+    
+    override init() {
+        super.init()
+        WatchSessionHandler.shared.initialize()
+
+    }
 
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.

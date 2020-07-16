@@ -22,6 +22,14 @@
 		182DB17824B8617C00CCD7C9 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DB17724B8617C00CCD7C9 /* ExtensionDelegate.swift */; };
 		182DB17A24B8617E00CCD7C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 182DB17924B8617E00CCD7C9 /* Assets.xcassets */; };
 		182DB17D24B8617E00CCD7C9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 182DB17C24B8617E00CCD7C9 /* Preview Assets.xcassets */; };
+		182DB18D24B863AC00CCD7C9 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DB18C24B863AC00CCD7C9 /* HealthKitManager.swift */; };
+		182DB19124B87A9800CCD7C9 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182DB19024B87A9800CCD7C9 /* HealthKit.framework */; };
+		182DB19324B88A7C00CCD7C9 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DB19224B88A7C00CCD7C9 /* MotionManager.swift */; };
+		1840E48324C05A2000668EB5 /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840E48224C05A2000668EB5 /* WCSessionManager.swift */; };
+		1840E48524C0658D00668EB5 /* ExportFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840E48424C0658D00668EB5 /* ExportFileView.swift */; };
+		188DBF3824C042C8001CAB28 /* WatchSessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */; };
+		188DBF3B24C04D66001CAB28 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188DBF3A24C04D66001CAB28 /* FileManager.swift */; };
+		18D0267524C082B500F842E9 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D0267424C082B500F842E9 /* ReachabilityManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +94,15 @@
 		182DB17924B8617E00CCD7C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		182DB17C24B8617E00CCD7C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		182DB17E24B8617E00CCD7C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		182DB18C24B863AC00CCD7C9 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		182DB18E24B87A9800CCD7C9 /* SampleRowingApp WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SampleRowingApp WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		182DB19024B87A9800CCD7C9 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		182DB19224B88A7C00CCD7C9 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		1840E48224C05A2000668EB5 /* WCSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSessionManager.swift; sourceTree = "<group>"; };
+		1840E48424C0658D00668EB5 /* ExportFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportFileView.swift; sourceTree = "<group>"; };
+		188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionHandler.swift; sourceTree = "<group>"; };
+		188DBF3A24C04D66001CAB28 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		18D0267424C082B500F842E9 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				182DB19124B87A9800CCD7C9 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +131,7 @@
 				182DB16324B8617B00CCD7C9 /* SampleRowingApp WatchKit App */,
 				182DB17224B8617C00CCD7C9 /* SampleRowingApp WatchKit Extension */,
 				182DB14C24B8617500CCD7C9 /* Products */,
+				182DB18F24B87A9800CCD7C9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,6 +151,7 @@
 				182DB14E24B8617500CCD7C9 /* AppDelegate.swift */,
 				182DB15024B8617500CCD7C9 /* SceneDelegate.swift */,
 				182DB15224B8617500CCD7C9 /* ContentView.swift */,
+				18D0267324C07F4500F842E9 /* Supporting files */,
 				182DB15424B8617B00CCD7C9 /* Assets.xcassets */,
 				182DB15924B8617B00CCD7C9 /* LaunchScreen.storyboard */,
 				182DB15C24B8617B00CCD7C9 /* Info.plist */,
@@ -161,12 +181,14 @@
 		182DB17224B8617C00CCD7C9 /* SampleRowingApp WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				182DB18E24B87A9800CCD7C9 /* SampleRowingApp WatchKit Extension.entitlements */,
 				182DB17324B8617C00CCD7C9 /* ContentView.swift */,
 				182DB17524B8617C00CCD7C9 /* HostingController.swift */,
 				182DB17724B8617C00CCD7C9 /* ExtensionDelegate.swift */,
 				182DB17924B8617E00CCD7C9 /* Assets.xcassets */,
 				182DB17E24B8617E00CCD7C9 /* Info.plist */,
 				182DB17B24B8617E00CCD7C9 /* Preview Content */,
+				18D0267624C089A800F842E9 /* Supporting files */,
 			);
 			path = "SampleRowingApp WatchKit Extension";
 			sourceTree = "<group>";
@@ -177,6 +199,35 @@
 				182DB17C24B8617E00CCD7C9 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		182DB18F24B87A9800CCD7C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				182DB19024B87A9800CCD7C9 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		18D0267324C07F4500F842E9 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				188DBF3A24C04D66001CAB28 /* FileManager.swift */,
+				1840E48224C05A2000668EB5 /* WCSessionManager.swift */,
+				1840E48424C0658D00668EB5 /* ExportFileView.swift */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		18D0267624C089A800F842E9 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				182DB18C24B863AC00CCD7C9 /* HealthKitManager.swift */,
+				182DB19224B88A7C00CCD7C9 /* MotionManager.swift */,
+				188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */,
+				18D0267424C082B500F842E9 /* ReachabilityManager.swift */,
+			);
+			path = "Supporting files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,7 +363,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				188DBF3B24C04D66001CAB28 /* FileManager.swift in Sources */,
 				182DB14F24B8617500CCD7C9 /* AppDelegate.swift in Sources */,
+				1840E48524C0658D00668EB5 /* ExportFileView.swift in Sources */,
+				1840E48324C05A2000668EB5 /* WCSessionManager.swift in Sources */,
 				182DB15124B8617500CCD7C9 /* SceneDelegate.swift in Sources */,
 				182DB15324B8617500CCD7C9 /* ContentView.swift in Sources */,
 			);
@@ -322,9 +376,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18D0267524C082B500F842E9 /* ReachabilityManager.swift in Sources */,
+				182DB18D24B863AC00CCD7C9 /* HealthKitManager.swift in Sources */,
+				182DB19324B88A7C00CCD7C9 /* MotionManager.swift in Sources */,
 				182DB17624B8617C00CCD7C9 /* HostingController.swift in Sources */,
 				182DB17424B8617C00CCD7C9 /* ContentView.swift in Sources */,
 				182DB17824B8617C00CCD7C9 /* ExtensionDelegate.swift in Sources */,
+				188DBF3824C042C8001CAB28 /* WatchSessionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +539,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "SampleRowingApp WatchKit Extension/SampleRowingApp WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SampleRowingApp WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = B2TWTY7FP9;
@@ -497,7 +556,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Debug;
 		};
@@ -505,6 +564,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "SampleRowingApp WatchKit Extension/SampleRowingApp WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SampleRowingApp WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = B2TWTY7FP9;
@@ -521,7 +581,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Release;
 		};
@@ -540,7 +600,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Debug;
 		};
@@ -559,7 +619,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Release;
 		};
@@ -572,6 +632,7 @@
 				DEVELOPMENT_TEAM = B2TWTY7FP9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SampleRowingApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -592,6 +653,7 @@
 				DEVELOPMENT_TEAM = B2TWTY7FP9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SampleRowingApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

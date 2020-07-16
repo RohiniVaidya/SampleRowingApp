@@ -7,11 +7,54 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct ContentView: View {
+    
+    var workoutsHandler = HealthKitManager()
+    
+    @ObservedObject var reachabilitymanager = Reachabilitymanager()
+    @State private var workoutInProgress = false
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack{
+            if workoutInProgress{
+                
+                VStack{
+                    Text("Workout in Progress")
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        self.workoutInProgress = false
+                        self.workoutsHandler.stopWorkout()
+                    }, label: {
+                        Text("End Workout")
+                    })
+                    
+                }
+                
+                
+            }else{
+                
+                VStack{
+                    
+                    Button(action: {
+                        self.workoutsHandler.startWorkout()
+                        self.workoutInProgress = true
+                    }, label: {
+                        Text("Start Workout")
+                    })
+                    
+                    
+                }
+                
+            }
+            
+        }
     }
+    
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
