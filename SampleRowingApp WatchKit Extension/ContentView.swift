@@ -35,10 +35,13 @@ struct ContentView: View {
                 }
                 
                 
-            }else{
+            }
+            else {
                 
                 VStack{
-                    
+                    Button("Request Permission"){
+                        self.workoutsHandler.requestPermission()
+                    }
                     Button(action: {
                         self.workoutsHandler.startWorkout()
                         self.workoutInProgress = true
@@ -50,6 +53,7 @@ struct ContentView: View {
                 }
                 
             }
+            
             
         }
     }
