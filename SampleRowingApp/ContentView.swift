@@ -25,7 +25,7 @@ struct ContentView: View {
                 .padding()
             }
             Spacer()
-            
+      
             Text(fileManager.didRecieve ? "File Recieved" : "File Not Recieved")
             
             Spacer().frame(height: 50)
@@ -37,7 +37,7 @@ struct ContentView: View {
                 .padding()
                 .background(Color.black)
                 .foregroundColor(Color.white)
-            .cornerRadius(20)
+                .cornerRadius(20)
                 .sheet(isPresented: self.$showExportView) {
                     ExportFileView(activityItems: [self.fileManager.fileURL!])
                 }

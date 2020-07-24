@@ -15,11 +15,6 @@ class WatchSessionHandler: NSObject, WCSessionDelegate{
     var session = WCSession.default
     static let shared = WatchSessionHandler()
     
-//    override init() {
-//        super.init()
-//        
-//    }
-    
     func initialize(){
         self.session.delegate = self
         self.session.activate()
@@ -62,11 +57,31 @@ class WatchSessionHandler: NSObject, WCSessionDelegate{
     }
     
     func sendMessage(message: [String: Any]){
-        self.session.sendMessage(message, replyHandler: { (messageDict) in
-            print("DEBUG: Successfully sent data")
-        }) { (error) in
-            print("ERROR: Error in sending data")
+        
+        if self.session.isReachable{
+            
+            self.session.sendMessage(message, replyHandler: { (messageDict) in
+                print("DEBUG: Successfully sent data")
+            }) { (error) in
+                print("ERROR: Error in sending data")
+            }
         }
+        
+    }
+    
+    func updateApplicationContext(message: [String: Any]){
+        do{
+            try self.session.updateApplicationContext(message)
+        }
+        catch
+        {
+            print("Error: in updating")
+        }
+    }
+    
+    func transferFile(url: URL?){
+        guard let url = url else { return }
+        self.session.transferFile(url, metadata: nil)
     }
     
 }

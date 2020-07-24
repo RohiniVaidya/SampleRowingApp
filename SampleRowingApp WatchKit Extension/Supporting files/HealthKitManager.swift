@@ -10,6 +10,7 @@ import Foundation
 import HealthKit
 import CoreMotion
 import WatchKit
+import WatchConnectivity
 
 class HealthKitManager: NSObject {
     
@@ -32,7 +33,6 @@ class HealthKitManager: NSObject {
     
     // Request authorization for those quantity types.
     func requestPermission(){
-        
         if HKHealthStore.isHealthDataAvailable(){
             self.healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (status, error) in
                 if status{
@@ -72,9 +72,9 @@ class HealthKitManager: NSObject {
     }
     
     func startWorkout(){
+        self.requestPermission()
         self.workoutConfig()
         guard let session = session, let builder = builder else { return  }
-        
         let startDate = Date()
         
         
@@ -107,6 +107,7 @@ class HealthKitManager: NSObject {
         })
     }
     
+  
     
 }
 

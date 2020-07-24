@@ -11,45 +11,26 @@ import HealthKit
 
 struct ContentView: View {
     
-    var workoutsHandler = HealthKitManager()
-    
-    @ObservedObject var reachabilitymanager = Reachabilitymanager()
+    @EnvironmentObject var interactor: Interactor
+        
     @State private var workoutInProgress = false
     
     var body: some View {
         VStack{
             if workoutInProgress{
                 
-                VStack{
-                    Text("Workout in Progress")
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        self.workoutInProgress = false
-                        self.workoutsHandler.stopWorkout()
-                    }, label: {
-                        Text("End Workout")
-                    })
-                    
-                }
+                Text("Workout in Progress")
                 
+                Spacer()
+                
+                Button(action: self.performStopWorkout){
+                    Text("End Workout")
+                }
                 
             }
             else {
-                
-                VStack{
-                    Button("Request Permission"){
-                        self.workoutsHandler.requestPermission()
-                    }
-                    Button(action: {
-                        self.workoutsHandler.startWorkout()
-                        self.workoutInProgress = true
-                    }, label: {
-                        Text("Start Workout")
-                    })
-                    
-                    
+                Button(action: self.performStartWorkout){
+                    Text("Start Workout")
                 }
                 
             }
@@ -59,6 +40,23 @@ struct ContentView: View {
     }
     
     
+    func performStartWorkout(){
+        WatchSessionHandler.shared.sendMessage(message: ["reset": "true"])
+
+        self.interactor.startWorkout()
+        self.workoutInProgress = true
+        
+    }
+    
+    
+    func performStopWorkout(){
+        
+        self.workoutInProgress = false
+        self.interactor.stopWorkout()
+        print("DEBUG in view \(self.interactor.fileURL!)")
+//        WatchSessionHandler.shared.sendMessage(message: ["sensorvalues": self.interactor.sensorData])
+        WatchSessionHandler.shared.transferFile(url: self.interactor.fileURL!)
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

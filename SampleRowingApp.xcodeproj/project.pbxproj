@@ -25,6 +25,7 @@
 		182DB18D24B863AC00CCD7C9 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DB18C24B863AC00CCD7C9 /* HealthKitManager.swift */; };
 		182DB19124B87A9800CCD7C9 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182DB19024B87A9800CCD7C9 /* HealthKit.framework */; };
 		182DB19324B88A7C00CCD7C9 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182DB19224B88A7C00CCD7C9 /* MotionManager.swift */; };
+		183A6D9D24C9B85A001B1548 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A6D9C24C9B85A001B1548 /* Interactor.swift */; };
 		1840E48324C05A2000668EB5 /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840E48224C05A2000668EB5 /* WCSessionManager.swift */; };
 		1840E48524C0658D00668EB5 /* ExportFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840E48424C0658D00668EB5 /* ExportFileView.swift */; };
 		188DBF3824C042C8001CAB28 /* WatchSessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */; };
@@ -98,6 +99,7 @@
 		182DB18E24B87A9800CCD7C9 /* SampleRowingApp WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SampleRowingApp WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		182DB19024B87A9800CCD7C9 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		182DB19224B88A7C00CCD7C9 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		183A6D9C24C9B85A001B1548 /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		1840E48224C05A2000668EB5 /* WCSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSessionManager.swift; sourceTree = "<group>"; };
 		1840E48424C0658D00668EB5 /* ExportFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportFileView.swift; sourceTree = "<group>"; };
 		188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionHandler.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				182DB19224B88A7C00CCD7C9 /* MotionManager.swift */,
 				188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */,
 				18D0267424C082B500F842E9 /* ReachabilityManager.swift */,
+				183A6D9C24C9B85A001B1548 /* Interactor.swift */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				182DB17624B8617C00CCD7C9 /* HostingController.swift in Sources */,
 				182DB17424B8617C00CCD7C9 /* ContentView.swift in Sources */,
 				182DB17824B8617C00CCD7C9 /* ExtensionDelegate.swift in Sources */,
+				183A6D9D24C9B85A001B1548 /* Interactor.swift in Sources */,
 				188DBF3824C042C8001CAB28 /* WatchSessionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
