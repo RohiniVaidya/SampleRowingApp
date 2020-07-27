@@ -24,18 +24,21 @@ class MotionManager: NSObject {
     let wristLocationIsLeft = WKInterfaceDevice.current().wristLocation == .left
     
     // The app is using 50hz data and the buffer is going to hold 1s worth of data.
-    let sampleInterval = 1.0 / 20
+    let sampleInterval = 1.0 / 50
     
+    let rateAlongGravityBuffer = RunningBuffer(size: 50)
     
     var recentDetection = false
     var inputArray = [[String: Any]]()
     var fileTransfer: TransferData?
-    var timer: Timer? = nil
-    private var rotXValues = [Double]()
-    private var rotYValues = [Double]()
-    private var rotZValues = [Double]()
     
-//    @Published var sensorData: [[String: Any]] = []
+    
+    private var log_id: Int = 0
+    private var activity = Activity.backward.rawValue
+    
+    private var isForward = false
+    
+
 
     //weak var delegate: MotionManagerDelegate?
     override init() {
@@ -55,29 +58,23 @@ class MotionManager: NSObject {
         os_log("Start Updates");
         
         motionManager.deviceMotionUpdateInterval = sampleInterval
+        
         motionManager.startDeviceMotionUpdates(to: queue) { (deviceMotion: CMDeviceMotion?, error: Error?) in
             if error != nil {
                 print("Encountered error: \(error!)")
             }
             
             if deviceMotion != nil {
+//                self.getValue(deviceMotion: deviceMotion!)
+                self.processThrust(deviceMotion!)
+            }
+        }
 
-                self.processDeviceMotion(deviceMotion!)
-            }
-        }
-        DispatchQueue.main.async {
-            if self.timer == nil{
-                self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.detectPause), userInfo: nil, repeats: true)
-            }
-        }
         
     }
     
     func stopUpdates() {
 
-//        print("DEBUG: input array \(self.inputArray)")
-        self.timer?.invalidate()
-        self.timer = nil
         if motionManager.isDeviceMotionAvailable {
             motionManager.stopDeviceMotionUpdates()
         }
@@ -86,297 +83,101 @@ class MotionManager: NSObject {
         
     }
     
-    func resetValues(){
-        
-        self.inputArray = []
-        self.rotXValues = []
-        self.rotYValues = []
-        self.rotZValues = []
-        last_array_count = 0
-        rot_z_avgs = []
-        rot_y_avgs = []
-        rot_x_avgs = []
-        activity = Activity.backward.rawValue
-        log_id = 0
+   
+    
+    func processThrust(_ deviceMotion: CMDeviceMotion) {
+        let userAcceleration = deviceMotion.userAcceleration
+        let userAccelerationMagnitude = sqrt(pow(userAcceleration.x, 2) + pow(userAcceleration.y, 2) + pow(userAcceleration.z, 2))
+               
+        let rotationRate = deviceMotion.rotationRate
+
+        let rotationRateMag = sqrt(pow(rotationRate.x, 2) + pow(rotationRate.y, 2) + pow(rotationRate.z, 2))
+        if userAccelerationMagnitude < 0.1 && rotationRateMag < 1.0{
+            rateAlongGravityBuffer.addSample(userAccelerationMagnitude)
+            if rateAlongGravityBuffer.count() > 5{
+                WKInterfaceDevice.current().play(.success)
+
+                addActivityLabel(deviceMotion: deviceMotion, isDirectionChanged: false, id: -1)
+            }
+        }
+        else{
+            if rateAlongGravityBuffer.count() > 5{
+                addActivityLabel(deviceMotion: deviceMotion, isDirectionChanged: true, id: 0)
+
+            }
+            else{
+                self.addActivityLabel(deviceMotion: deviceMotion, isDirectionChanged: false, id: 0)
+            }
+
+            rateAlongGravityBuffer.reset()
+        }
     }
     
-    private var log_id: Int = 0
-    private var activity = Activity.backward.rawValue
-    
-    func processDeviceMotion(_ deviceMotion: CMDeviceMotion) {
+    func addActivityLabel(deviceMotion: CMDeviceMotion, isDirectionChanged: Bool, id: Int){
         
         let dateFormatterGet = DateFormatter()
         dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let dateString = dateFormatterGet.string(from: Date())
         
-        self.rotXValues.append(deviceMotion.rotationRate.x.round(to: 4))
-        self.rotYValues.append(deviceMotion.rotationRate.y.round(to: 4))
-        self.rotZValues.append(deviceMotion.rotationRate.z.round(to: 4))
+        let userAcceleration = deviceMotion.userAcceleration
+        let rotationRate = deviceMotion.rotationRate
+        let attitude = deviceMotion.attitude
+        let gravity = deviceMotion.gravity
         
-        let dictionary_data = [
-            "date": dateString,
-            "userAcceleration_x": deviceMotion.userAcceleration.x.round(to: 4),
-            "userAcceleration_y": deviceMotion.userAcceleration.y.round(to: 4),
-            "userAcceleration_z": deviceMotion.userAcceleration.z.round(to: 4),
-            "rotation_x": deviceMotion.rotationRate.x.round(to: 4),
-            "rotation_y": deviceMotion.rotationRate.y.round(to: 4),
-            "rotation_z": deviceMotion.rotationRate.z.round(to: 4),
-            "roll": deviceMotion.attitude.roll.round(to: 4),
-            "pitch": deviceMotion.attitude.pitch.round(to: 4),
-            "yaw": deviceMotion.attitude.yaw.round(to: 4),
-            "gravity_x": deviceMotion.gravity.x.round(to: 4),
-            "gravity_y": deviceMotion.gravity.y.round(to: 4),
-            "gravity_z": deviceMotion.gravity.z.round(to: 4),
-            "activity": activity,
-            "id": log_id
-            ] as [String : Any]
-        inputArray.append(dictionary_data)
+        var dictionary_data = [
+                             "date": dateString,
+                             "userAcceleration_x": userAcceleration.x.round(to: 4),
+                             "userAcceleration_y": userAcceleration.y.round(to: 4),
+                             "userAcceleration_z": userAcceleration.z.round(to: 4),
+                             "rotation_x": rotationRate.x.round(to: 4),
+                             "rotation_y": rotationRate.y.round(to: 4),
+                             "rotation_z": rotationRate.z.round(to: 4),
+                             "roll": attitude.roll.round(to: 4),
+                             "pitch": attitude.pitch.round(to: 4),
+                             "yaw": attitude.yaw.round(to: 4),
+                             "gravity_x": gravity.x.round(to: 4),
+                             "gravity_y": gravity.y.round(to: 4),
+                             "gravity_z": gravity.z.round(to: 4)
+        ] as [String : Any]
         
-    }
-
-    
-    var array_of_avgs = [Double]()
-    private var count: Int = 0
-    private var last_array_count: Int = 0
-    private var isForward = true
-
-    var rot_x_avgs = [Double]()
-    var rot_y_avgs = [Double]()
-    var rot_z_avgs = [Double]()
-    var newArray = [Double]()
-
-    var sensorValues = [[String:Any]]()
-
-    @objc func detectPause(){
-        
-    
-
-
-        let currentArrayLength = rotXValues.count
-        newArray.removeAll()
-
-        if last_array_count < currentArrayLength{
-            print("DEBUG: currentArrayLength \(currentArrayLength)")
-
-            print("DEBUG: last array count \(last_array_count)")
-            let newLength = currentArrayLength - last_array_count
-            for i in 0..<newLength{
-                newArray.append(abs(rotXValues[last_array_count + i]))
-            }
-
-            let currentBatch = rotXValues[last_array_count..<currentArrayLength]
-            print("DEBUG: currentBatch\(currentBatch)")
-
-            last_array_count += currentBatch.count
-
-            getPause(newValues: newArray)
-        }
-        
-//        let currentArrayLength = self.inputArray.count
-//        sensorValues.removeAll()
-//
-//        if last_array_count < currentArrayLength{
-//            print("DEBUG: currentArrayLength \(currentArrayLength)")
-//
-//            print("DEBUG: last array count \(last_array_count)")
-//            let newLength = currentArrayLength - last_array_count
-//            for i in 0..<newLength{
-//                sensorValues.append(self.inputArray[last_array_count + i])
-//            }
-//
-//            let currentBatch = inputArray[last_array_count..<currentArrayLength]
-////            print("DEBUG: currentBatch\(currentBatch)")
-//
-//            last_array_count += currentBatch.count
-//
-//            for i in 0..<(sensorValues.count - 1){
-//                vectorMath(vectorA: sensorValues[i], vectorB: sensorValues[i+1])
-//            }
-//
-//        }
-
-        
-        
-    }
-    
-    
-    func vectorMath(vectorA: [String: Any], vectorB: [String: Any]){
-        
-        var cos_angle = 0.0
-        guard let vectorA_X = vectorA["userAcceleration_x"] as? Double else { return }
-        guard let vectorB_X = vectorB["userAcceleration_x"] as? Double else { return }
-        guard let vectorA_Y = vectorA["userAcceleration_y"] as? Double else { return }
-        guard let vectorB_Y = vectorB["userAcceleration_y"] as? Double else { return }
-        guard let vectorA_Z = vectorA["userAcceleration_z"] as? Double else { return }
-        guard let vectorB_Z = vectorB["userAcceleration_z"] as? Double else { return }
-
-        let sumOfProducts = (vectorA_X * vectorB_X) + (vectorA_Y * vectorB_Y) + (vectorA_Z * vectorB_Z)
-        let sumOfSquareOfA = pow(vectorA_X, 2) + pow(vectorA_Y, 2) + pow(vectorA_Z, 2)
-        let rootOfVectorA = sqrt(sumOfSquareOfA)
-        
-        let sumOfSquareOfB = pow(vectorB_X, 2) + pow(vectorB_Y, 2) + pow(vectorB_Z, 2)
-        let rootOfVectorB = sqrt(sumOfSquareOfB)
-        
-        cos_angle = sumOfProducts / (rootOfVectorA * rootOfVectorB)
-        
-        print("DEBUG: cos_angle \(cos_angle)")
-    }
-    
-    
-
-    var pauseIndices = [Int]()
-    
-    func getPause(newValues: [Double])
-    {
-        let length = newArray.count - 1
-        let mainArrayLength = self.inputArray.count - 1
-        for i in 0..<10{
-            
-            let sensorValue = newArray[length - i]
-            if sensorValue < 0.1 {
-                count += 1
-                print("DEBUG: sesnor val \(sensorValue)")
-                pauseIndices.append(i)
-            }
-            
-        }
-        
-        if count >= 4{
-            WKInterfaceDevice.current().play(.success)
-            
-            count = 0
-            for i in 0..<pauseIndices.count{
-                self.inputArray[mainArrayLength-i]["id"] = -1
-                self.inputArray[mainArrayLength-i]["activity"] = Activity.pause.rawValue
-            }
-            self.storeStrokeData(for: self.isForward)
+        if isDirectionChanged{
             isForward.toggle()
-            pauseIndices.removeAll()
+            log_id += 1
+            
+            dictionary_data["activity"] = isForward ? Activity.forward.rawValue : Activity.backward.rawValue
+            dictionary_data["id"] = log_id
+            
+            inputArray.append(dictionary_data)
             
         }
-        count = 0
-    }
-    
-    
-    
-    func identifyPause(newArray: [Double]){
-        let length = newArray.count - 1
-        let mainArrayLength = self.inputArray.count - 1
-//        guard let max = newArray.max() else {return }
-        for i in 0..<10{
-            let sensorValue = newArray[length - i]
-            if sensorValue < 0.1 {
-                count += 1
-                print("DEBUG: sesnor val \(sensorValue)")
-                pauseIndices.append(i)
+        else{
+            if id == -1{
+                dictionary_data["activity"] = Activity.pause.rawValue
+                dictionary_data["id"] = -1
+               
+                inputArray.append(dictionary_data)
             }
-//            let differnce = percentageDifference(min: sensorValue, max: max)
-//            if differnce > 0.9{
-//                print("DEBUG: max: \(max) recent: \(sensorValue)")
-//                pauseValues.append(differnce)
-//            }
-            
-        }
-        
-        if count >= 4{
-            WKInterfaceDevice.current().play(.success)
-
-            count = 0
-            for i in 0..<pauseIndices.count{
-                self.inputArray[mainArrayLength-i]["id"] = -1
-                self.inputArray[mainArrayLength-i]["activity"] = Activity.pause.rawValue
-            }
-            self.storeStrokeData(for: self.isForward)
-            isForward.toggle()
-            pauseIndices.removeAll()
-
-        }
-        count = 0
-
-//        if pauseValues.count >= 4{
-//            for i in 0..<4{
-//                self.inputArray[mainArrayLength-i]["id"] = -1
-//                self.inputArray[mainArrayLength-i]["activity"] = Activity.pause.rawValue
-//            }
-//            self.storeStrokeData(for: self.isForward)
-//            isForward.toggle()
-//            pauseValues.removeAll()
-//        }else{
-//            pauseValues.removeAll()
-//        }
-        
-    }
-    
-    
-    func performBasicComputation(incomingArray: [Double]) -> Double{
-        let currentArrayLength = incomingArray.count
-        if last_array_count < currentArrayLength{
-            let currentBatch = incomingArray[last_array_count..<currentArrayLength]
-            last_array_count = currentBatch.count
-            
-            let batchSum = currentBatch.sum()
-            
-            let batchAvg = batchSum / Double(currentBatch.count)
-            return batchAvg
-        }
-        return 0.0
-    }
-    
-    func performMaxComputation(){
-        
-        guard let maxX = rotXValues.max() else { return }
-        guard let maxY = rotYValues.max() else { return }
-        guard let maxZ = rotZValues.max() else { return }
-
-        guard let minX = rot_x_avgs.last else { return }
-        guard let minY = rot_y_avgs.last else { return }
-        guard let minZ = rot_z_avgs.last else { return }
-        
-        let diffX = percentageDifference(min: minX, max: maxX)
-        let diffY = percentageDifference(min: minY, max: maxY)
-        let diffZ = percentageDifference(min: minZ, max: maxZ)
-        
-        //check of 2 of 3 satify condition consistently
-        let values = [diffX, diffY, diffZ].filter {
-            $0 > 0.9
-        }
-        
-        if values.count >= 2{
-            count += 1
-            if count == 2{
-                count = 0
+            else{
+                dictionary_data["activity"] = isForward ? Activity.forward.rawValue : Activity.backward.rawValue
+                dictionary_data["id"] = log_id
                 
-                print("DEBUG: max \(maxX), \(maxY), \(maxZ) min \(minX), \(minY) ,\(minZ) percDiff \(diffX), \(diffY), \(diffZ)")
-
-                self.storeStrokeData(for: self.isForward)
-                isForward.toggle()
+                inputArray.append(dictionary_data)
             }
-        }
-        else{
-            count = 0
+            
         }
         
-    }
-    
-    
-    func storeStrokeData(for forwardStroke: Bool){
-        self.log_id += 1
-        if forwardStroke{
-            self.activity = Activity.forward.rawValue
-        }
-        else{
-            self.activity = Activity.backward.rawValue
-        }
-    }
-    
-    func percentageDifference(min: Double, max: Double) -> Double{
-        let diff = max-min
-        return diff/max
-    }
-    
-    
 
+    }
+    
+    func resetValues(){
+        
+        rateAlongGravityBuffer.reset()
 
+        self.inputArray = []
+
+        activity = Activity.backward.rawValue
+        log_id = 0
+    }
     
 }
 

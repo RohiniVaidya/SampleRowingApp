@@ -31,6 +31,7 @@
 		188DBF3824C042C8001CAB28 /* WatchSessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */; };
 		188DBF3B24C04D66001CAB28 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188DBF3A24C04D66001CAB28 /* FileManager.swift */; };
 		18D0267524C082B500F842E9 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D0267424C082B500F842E9 /* ReachabilityManager.swift */; };
+		18FF5FCE24CEB023004854C0 /* RunningBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FF5FCD24CEB023004854C0 /* RunningBuffer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionHandler.swift; sourceTree = "<group>"; };
 		188DBF3A24C04D66001CAB28 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		18D0267424C082B500F842E9 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
+		18FF5FCD24CEB023004854C0 /* RunningBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningBuffer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +231,7 @@
 				188DBF3724C042C8001CAB28 /* WatchSessionHandler.swift */,
 				18D0267424C082B500F842E9 /* ReachabilityManager.swift */,
 				183A6D9C24C9B85A001B1548 /* Interactor.swift */,
+				18FF5FCD24CEB023004854C0 /* RunningBuffer.swift */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				182DB17824B8617C00CCD7C9 /* ExtensionDelegate.swift in Sources */,
 				183A6D9D24C9B85A001B1548 /* Interactor.swift in Sources */,
 				188DBF3824C042C8001CAB28 /* WatchSessionHandler.swift in Sources */,
+				18FF5FCE24CEB023004854C0 /* RunningBuffer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
